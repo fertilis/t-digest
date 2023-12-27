@@ -19,6 +19,8 @@ Python and scala implementations are my translations from rust code.
 
 In python, number of centroids is hardcoded to 100.
 
+To imitate quantile calculation in a rolling window use `trim_weights()`.
+
 
 ## Performance
 

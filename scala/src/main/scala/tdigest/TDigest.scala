@@ -17,6 +17,17 @@ class TDigest(private val maxSize: Long = 100) {
     this.max = other.max
     this.min = other.min
   }
+  
+  def trimWeights(targetWeightSum: Double, tolerance: Double): Unit = {
+    val weightSum = centroids.asScala.map(_.getWeight).sum
+    if (weightSum > targetWeightSum * tolerance && weightSum > 0) {
+      val ratio = targetWeightSum / weightSum
+      for (centroid <- centroids.asScala) {
+        centroid.setWeight(centroid.getWeight * ratio)
+      }
+    }
+    count = centroids.asScala.map(_.getWeight).sum
+  }
 
   def mergeUnsorted(unsortedValues: Iterable[Double]): TDigest = {
     val sorted: List[Double] = unsortedValues.toSeq.sorted.toList

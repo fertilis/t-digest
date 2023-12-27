@@ -17,6 +17,11 @@ def main():
     for q in range(10):
         q = q / 10
         print(q, tdigest.quantile(d, q), np.quantile(inp, q))
+    print("trimming")
+    tdigest.trim_weights(d, 100, 1.1)
+    for q in range(10):
+        q = q / 10
+        print(q, tdigest.quantile(d, q), np.quantile(inp, q))
     start = time.time()
     for _ in range(1000):
         for i in inp:
@@ -24,6 +29,7 @@ def main():
     elapsed_ns = (time.time() - start) * 1e9
     per_update = elapsed_ns / (1000 * len(inp))
     print(f"per update: {per_update:.3f} ns")
+    
 
     # print(d[0]["centroids"])
 

@@ -32,6 +32,10 @@ class Centroid(
     weight
   }
 
+  def setWeight(value: Double): Unit = {
+    weight = value
+  }
+
   @inline
   override def clone: Centroid = {
     new Centroid(mean, weight)

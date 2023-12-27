@@ -12,6 +12,12 @@ fn main() {
         let q: f64 = q as f64 / 10.0;
         println!("{}, {:?}", q, t.estimate_quantile(q));
     }
+    println!("trimming");
+    t.trim_weights(100.0, 1.1);
+    for q in 0..10 {
+        let q: f64 = q as f64 / 10.0;
+        println!("{}, {:?}", q, t.estimate_quantile(q));
+    }
 
     let start = Instant::now();
     for _ in 0..1000 {

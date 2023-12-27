@@ -195,6 +195,26 @@ impl TDigest {
             v
         }
     }
+    
+    pub fn trim_weights(&mut self, target_weight_sum: f64, tolerance: f64) {
+        let weight_sum: f64 = self
+            .centroids
+            .iter()
+            .map(|c| c.weight())
+            .sum::<f64>();
+        if weight_sum > target_weight_sum * tolerance && weight_sum > 0.0 {
+            let ratio = target_weight_sum / weight_sum;
+            for c in self.centroids.iter_mut() {
+                c.weight = OrderedFloat::from(c.weight() * ratio);
+            }
+        }
+        let weight_sum: f64 = self
+            .centroids
+            .iter()
+            .map(|c| c.weight())
+            .sum::<f64>();
+        self.count = OrderedFloat::from(weight_sum);
+    }
 
     pub fn merge_unsorted(&self, unsorted_values: Vec<f64>) -> TDigest {
         let mut sorted_values: Vec<OrderedFloat<f64>> = unsorted_values.into_iter().map(OrderedFloat::from).collect();

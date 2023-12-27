@@ -11,6 +11,13 @@ class TestTDigest extends munit.FunSuite {
       val v = d.estimateQuantile(q2)
       println(s"$q2, $v")
     })
+    println("trimming")
+    d.trimWeights(100, 1.1)
+    (0 until 10).foreach(q => {
+      val q2 = q.toDouble / 10.0
+      val v = d.estimateQuantile(q2)
+      println(s"$q2, $v")
+    })
 //    println(d.centroids)
   }
 

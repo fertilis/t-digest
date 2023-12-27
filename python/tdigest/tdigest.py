@@ -31,7 +31,22 @@ def new() -> np.ndarray[TDigest]:
 
 
 @nb.njit(cache=True)
+def trim_weights(self: np.ndarray[TDigest], target_weight_sum: np.float64, tolerance: np.float64) -> np.float64:
+    self = self[0]
+    weightsum = self["centroids"]["array"]["weight"].sum()
+    if weightsum > target_weight_sum * tolerance and weightsum > np.float64(0.0):
+        ratio = target_weight_sum / weightsum
+        for centroid_index in range(self["centroids"]["size"]):
+            c = self["centroids"]["array"][centroid_index]
+            c["weight"] *= ratio
+    weightsum = self["centroids"]["array"]["weight"].sum()
+    self["count"] = weightsum
+
+
+@nb.njit(cache=True)
 def add_value(self: np.ndarray[TDigest], value: np.float64):
+    if not np.isfinite(value):
+        return
     add_sorted_values(self, np.array([value], dtype=np.float64))
 
 
