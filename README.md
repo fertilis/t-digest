@@ -1,4 +1,4 @@
-# Incremental Calculation of Quantile
+# Incremental Calculation of Quantiles
 
 Purpose: to have identical calculation in python and scala.
 
